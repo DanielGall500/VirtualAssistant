@@ -1,10 +1,12 @@
 import speech_recognition as sr
 import easygui as gui
 import Tkinter as tk
+from PIL import ImageTk, Image
 import os
 import webbrowser
 import pyttsx
-
+import time
+"""
 class Application(tk.Frame):
 	def __init__(self, master=None):
 
@@ -25,34 +27,43 @@ app = Application()
 app.master.title('Virtual Assistant')
 
 app.mainloop()
+"""
 
+img_file = "C:/Users/dano/Desktop/Theory of Everything/AIBRAIN.jpg"
 
-def listen_response(recognizer):
-	speech_output = ""
-	
+def output_assist(text):
+	print text
+	engine.say(text)
+	engine.runAndWait()
+
+def mic_input(r):
 	with sr.Microphone() as mic_input:
-		print 'listening'
-		audio = recognizer.listen(mic_input)
-		speech_output = recognizer.recognize_google(audio)
+		audio = r.listen(mic_input)
+		speech_output = r.recognize_google(audio)
+	return speech_output
 
-		if 'jam' in speech_output:
+def waitForCommand():
+	assistance = ''
+	while 'yes' not in assistance:
+		assistance = raw_input('Activate Command?(yes/no)')
+	return True
 
-			print 'Yes, Daniel?'
-			engine = pyttsx.init()
+def listen_response(recognizer, engine, name):
+		yes = 'How can I be of assistance, {}?'.format(name)
+		output_assist(yes)
 
-			engine.say('Yes, Daniel?')
+		command = mic_input(recognizer)
 
-			engine.runAndWait()
-
-			audio = recognizer.listen(mic_input)
-			speech_output = recognizer.recognize_google(audio)
-
-			try:
-				return speech_output
-			except sr.UnknownValueError:
-				return "Didn't quite catch that"
-			except sr.RequestError:
-				return "I don't fully understand"
+		try:
+			affirm = 'Will Do That For You Now, {}'.format(name)
+			output_assist(affirm)
+			return command
+		except sr.UnknownValueError:
+			unknown = "Didn't quite catch that"
+			output_assist(unknown)
+		except sr.RequestError:
+			misunderstand = "I don't fully understand"
+			output_assist(misunderstand)
 
 def open_applications(apps_to_open, app_dirs):
 	for app in apps_to_open:
@@ -70,22 +81,28 @@ def parse_speech(speech, app_dirs, websites):
 				if wbst in speech]
 
 
-
-
-
 app_dirs = {"spotify" : "C:/Users/dano/AppData/Roaming/Spotify/Spotify.exe", "google" : "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe" }
 websites = {"youtube" : "https://www.youtube.com/"}
 
 r = sr.Recognizer()
-speech = listen_response(r)
-
 engine = pyttsx.init()
 
-engine.say('Will do that now for you, Daniel')
+waitForCommand()
 
+welcome = 'Welcome, what is your name?'
+
+engine.say(welcome)
 engine.runAndWait()
+name = raw_input(welcome + '\n')
 
-parse_speech(speech, app_dirs, websites)
+for i in range(10): #loops an arbitrary number of times
+
+	speech_output = listen_response(r, engine, name)
+
+	parse_speech(speech_output, app_dirs, websites)
+
+	waitForCommand()
+
 
 
 
