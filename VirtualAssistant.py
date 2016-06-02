@@ -1,7 +1,4 @@
 import speech_recognition as sr
-import easygui as gui
-import Tkinter as tk
-from PIL import ImageTk, Image
 import os
 import webbrowser
 import pyttsx
