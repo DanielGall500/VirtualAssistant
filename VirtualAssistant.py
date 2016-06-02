@@ -3,28 +3,6 @@ import os
 import webbrowser
 import pyttsx
 import time
-"""
-class Application(tk.Frame):
-	def __init__(self, master=None):
-
-		tk.Frame.__init__(self, master)
-
-		self.grid()
-		self.createWidgets()
-
-	def createWidgets(self):
-		self.text_output = tk.Text(self)
-		self.text_output.grid()
-
-		self.begin_button = tk.Button(self, text='I Need Assistance')
-		self.begin_button.grid()
-
-app = Application()
-
-app.master.title('Virtual Assistant')
-
-app.mainloop()
-"""
 
 img_file = "C:/Users/dano/Desktop/Theory of Everything/AIBRAIN.jpg"
 
